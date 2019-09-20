@@ -1,78 +1,78 @@
 struct Individuo{
-	Representa representar;
-	double aptidao;
+	Represent representacion;
+	double aptitud;
 	Individuo(){}
-	Individuo(Representa rep){
-		representar=rep;
+	Individuo(Represent rep){
+		representacion=rep;
 	}
-	Individuo(Representa representar,double aptidao){
-		representar=representar;
-		aptidao=aptidao;
+	Individuo(Represent representacion,double aptitud){
+		representacion=representacion;
+		aptitud=aptitud;
 	}
-	Individuo operador=(const Individuo& B){
-		representar=B.representar;
-		aptidao=B.aptidao;
+	Individuo operator=(const Individuo& B){
+		representacion=B.representacion;
+		aptitud=B.aptitud;
 		return *(this);
 	}
-	bool operador ==(const Individuo B)const{
-		return (representar==B.representar);
+	bool operator ==(const Individuo B)const{
+		return (representacion==B.representacion);
 	}
-	Individuo cruzamento(const Individuo* B){
+	Individuo cruzamiento(const Individuo* B){
 		//printf("cruzando\n");
-		Representa novo(representar.tamanho());
-		bool cromossomo_pai=iniciar(2);
-		int tamanho_minimo=3;
-		int division=iniciar(representar.tamanho()/2-tamanho_minimo)+tamanho_minimo;
-		for (int i=0;i<representar.tamanho()/2;i++){
+		Represent nuevo(representacion.tamano());
+		bool cromosoma_padre=XorShift(2);
+		int tamano_minimo=3;
+		int division=XorShift(representacion.tamano()/2-tamano_minimo)+tamano_minimo;
+		for (int i=0;i<representacion.tamano()/2;i++){
 			if(i==division)
-				cromossomo_pai=!cromossomo_pai;
-			if(cromossomo_pai)
-				novo.cromossomo[i]=representar.cromossomo[i];
+				cromosoma_padre=!cromosoma_padre;
+			if(cromosoma_padre)
+				nuevo.cromosomas[i]=representacion.cromosomas[i];
 			else
-				novo.cromossomo[i]=B->representar.cromossomo[i];
+				nuevo.cromosomas[i]=B->representacion.cromosomas[i];
 		}
-		cromossomo_pai=iniciar(2);
-		division=representar.tamanho()/2+iniciar(representar.tamanho()/2-tamanho_minimo)+tamanho_minimo;
-		for (int i=representar.tamanho()/2;i<representar.tamanho();i++){
+		cromosoma_padre=XorShift(2);
+		division=representacion.tamano()/2+XorShift(representacion.tamano()/2-tamano_minimo)+tamano_minimo;
+		for (int i=representacion.tamano()/2;i<representacion.tamano();i++){
 			if(i==division)
-				cromossomo_pai=!cromossomo_pai;
-			if(cromossomo_pai)
-				novo.cromossomo[i]=representar.cromossomo[i];
+				cromosoma_padre=!cromosoma_padre;
+			if(cromosoma_padre)
+				nuevo.cromosomas[i]=representacion.cromosomas[i];
 			else
-				novo.cromossomo[i]=B->representar.cromossomo[i];
+				nuevo.cromosomas[i]=B->representacion.cromosomas[i];
 		}
-		return Individuo(novo);
+		return Individuo(nuevo);
 	}
-	void mutacao_swap(Representa& novo){
-		int findice_mutacao=iniciar(representar.tamanho());
-		int sindice_mutacao=iniciar(representar.tamanho());
-		if(findice_mutacao==sindice_mutacao){
-			sindice_mutacao=(sindice_mutacao+1)%representar.tamanho();
+	void mutacion_swap(Represent& nuevo){
+		int findice_mutacion=XorShift(representacion.tamano());
+		int sindice_mutacion=XorShift(representacion.tamano());
+		if(findice_mutacion==sindice_mutacion){
+			sindice_mutacion=(sindice_mutacion+1)%representacion.tamano();
 		}
-		int cromosoma_aleatorio=novo.cromossomo[sindice_mutacao];
-		novo.cromossomo[sindice_mutacao]=novo.cromossomo[findice_mutacao];
-		novo.cromossomo[findice_mutacao]=cromosoma_aleatorio;
+		int cromosoma_aleatorio=nuevo.cromosomas[sindice_mutacion];
+		nuevo.cromosomas[sindice_mutacion]=nuevo.cromosomas[findice_mutacion];
+		nuevo.cromosomas[findice_mutacion]=cromosoma_aleatorio;
 	}
-	void mutacao_alter(Representa& novo, int n){
+	void mutacion_alter(Represent& nuevo, int n){
 		set<int> S;
 		for (int i=0;i<n;i++){
-			//novo.cromossomo[iniciar(representar.tamanho())]=iniciar(2);
-			int pos=iniciar(representar.tamanho());
+			//nuevo.cromosomas[XorShift(representacion.tamano())]=XorShift(2);
+			int pos=XorShift(representacion.tamano());
 			while (S.find(pos)!=S.end()){
-				pos=iniciar(representar.tamanho()); 
+				pos=XorShift(representacion.tamano()); 
 			}
-			novo.cromossomo[pos]=!(novo.cromossomo[pos]);
+			nuevo.cromosomas[pos]=!(nuevo.cromosomas[pos]);
 			S.insert(pos);
 		}
 	}
-	Individuo mutacao(){
-		Represent novo(representar.tamanho());
-		novo=representar;
-		//mutacao_swap(novo); //swap
-		mutacao_alter(novo, iniciar(2)+1); //alter
-		return Individuo(novo);
+	Individuo mutacion(){
+		Represent nuevo(representacion.tamano());
+		nuevo=representacion;
+		//mutacion_swap(nuevo); //swap
+		mutacion_alter(nuevo, XorShift(2)+1); //alter
+		return Individuo(nuevo);
 	}
-	bool operador <(const Individuo& B)const{
-		return (aptidao==B.aptidao)?representar<B.representar:aptidao<B.aptidao;
+	bool operator <(const Individuo& B)const{
+		return (aptitud==B.aptitud)?representacion<B.representacion:aptitud<B.aptitud;
 	}
 };

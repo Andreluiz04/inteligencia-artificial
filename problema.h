@@ -1,52 +1,52 @@
 template<class Indiv>
 struct Problema{
 	typedef Indiv indiv;
-	int populacao;
-	int geracao;
-	int cromossomos;
+	int tamano_de_poblacion;
+	int numero_de_generaciones;
+	int numero_de_cromosomas;
 	Problema(){}
-	Problema(int P, int G,int C){
-		populacao=P;
-		geracao=G;
-		cromossomos=C;
+	Problema(int n_poblacion, int n_generaciones,int n_cromosomas){
+		tamano_de_poblacion=n_poblacion;
+		numero_de_generaciones=n_generaciones;
+		numero_de_cromosomas=n_cromosomas;
 	}
-	void novo_individuo(Indiv& B){}
+	void generar_nuevo_individuo(Indiv& B){}
 	int valor_aleatorio(int max){
-		return iniciar(max);
+		return XorShift(max);
 	}
 	double valor_aleatorio(double max){
-		long long aleatorio = iniciar(100000000);
+		long long aleatorio = XorShift(100000000);
 		return (max*aleatorio)/double(100000000);
 	}
-	double aptidao(Indiv& individuo){
+	double aptitud(Indiv& individuo){
 		return -1;
 	}
 };
 
 template<class Indiv>
-struct pratica2: Problema<Indiv>{
-	pratica2(int P, int G,int C):
-		Problema<Indiv>(P, G, C){
+struct Practica2: Problema<Indiv>{
+	Practica2(int n_poblacion, int n_generaciones,int n_cromosomas):
+		Problema<Indiv>(n_poblacion, n_generaciones, n_cromosomas){
 	}
-	int num_cromossomo(){
-		return this->cromossomos;
+	int NumeroDeCromosomas(){
+		return this->numero_de_cromosomas;
 	}
-	void novo_individuo(Indiv& B){
-		Representa novo(num_cromossomo());
-		for (int i=0;i<num_cromossomo();i++){
-			novo_cromossomo[i]=iniciar(2);
+	void generar_nuevo_individuo(Indiv& B){
+		Represent nuevo(NumeroDeCromosomas());
+		for (int i=0;i<NumeroDeCromosomas();i++){
+			nuevo.cromosomas[i]=XorShift(2);
 		}
-		B.representa=novo;
+		B.representacion=nuevo;
 	}
 	double func(double x1, double x2){
 		double x=max(sqrt(x1*x1+x2*x2),eps);
 		double z=sin(pi*x)/(pi*x);
 		return z*z;
 	}
-	double aptidao(Indiv& individuo){
+	double aptitud(Indiv& individuo){
 		double x1,x2;
-		x1=individuo.representa.getX().first;
-		x2=individuo.representa.getX().second;
+		x1=individuo.representacion.getX().first;
+		x2=individuo.representacion.getX().second;
 		return (func(x1,x2)+1)*1000;//(func(x1,x2));
 	}
 };
