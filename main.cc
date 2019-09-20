@@ -7,8 +7,8 @@
 
 using namespace std;
 
-#include "xorshift.h" //semilla y función para puntos aleatorios
-#include "matematica.h" //definiciones basicas
+#include "iniciar.h" 
+#include "matematica.h" 
 #include "genetico.h"
 
 int main(int argc, char **argv){
